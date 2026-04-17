@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{title}}</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            min-height: 100vh;
+            padding: 20px;
+            color: #e4e4e7;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #0f0f23 0%, #1a1a3e 100%);
+            border-radius: 12px;
+            padding: 30px;
+            margin-bottom: 24px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .header h1 {
+            color: #fff;
+            font-size: 1.8rem;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .header .icon {
+            font-size: 2rem;
+        }
+
+        .header .subtitle {
+            color: #8b9bb4;
+            font-size: 0.9rem;
+            margin-top: 8px;
+        }
+
+        .info-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            padding: 24px;
+            margin-bottom: 24px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .info-card h2 {
+            color: #fff;
+            font-size: 1.2rem;
+            margin-bottom: 16px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+        }
+
+        .info-item {
+            background: rgba(255, 255, 255, 0.03);
+            padding: 16px;
+            border-radius: 8px;
+        }
+
+        .info-item .label {
+            color: #8b9bb4;
+            font-size: 0.85rem;
+            margin-bottom: 4px;
+        }
+
+        .info-item .value {
+            color: #4fc3f7;
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+
+        .metric-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .metric-row:last-child {
+            border-bottom: none;
+        }
+
+        .metric-label {
+            color: #8b9bb4;
+            font-size: 0.95rem;
+        }
+
+        .metric-value {
+            color: #4fc3f7;
+            font-weight: 600;
+            font-size: 1rem;
+        }
+
+        .progress-bar {
+            height: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 4px;
+            overflow: hidden;
+            margin-top: 8px;
+        }
+
+        .progress-fill {
+            height: 100%;
+            border-radius: 4px;
+            transition: width 0.3s ease;
+        }
+
+        .progress-fill.low {
+            background: linear-gradient(90deg, #4caf50, #8bc34a);
+        }
+
+        .progress-fill.medium {
+            background: linear-gradient(90deg, #ff9800, #ffc107);
+        }
+
+        .progress-fill.high {
+            background: linear-gradient(90deg, #f44336, #e91e63);
+        }
+
+        .timestamp {
+            color: #8b9bb4;
+            font-size: 0.85rem;
+            margin-top: 12px;
+        }
+
+        .footer {
+            text-align: center;
+            padding: 20px;
+            color: #5f6368;
+            font-size: 0.85rem;
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+
+        .status-badge.good {
+            background: rgba(76, 175, 80, 0.2);
+            color: #81c784;
+        }
+
+        .status-badge.warning {
+            background: rgba(255, 152, 0, 0.2);
+            color: #ffb74d;
+        }
+
+        .status-badge.critical {
+            background: rgba(244, 67, 54, 0.2);
+            color: #e57373;
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 0;
+            }
+
+            .header, .info-card {
+                padding: 20px;
+                border-radius: 8px;
+            }
+
+            .info-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1>
+                <span class="icon">🛡️</span>
+                Project Sentinel Report
+            </h1>
+            <p class="subtitle">System Performance Analysis</p>
+            <p class="timestamp">Generated: {{generated_at}}</p>
+        </header>
+
+        <section class="info-card">
+            <h2>📊 Collection Summary</h2>
+            <div class="info-grid">
+                <div class="info-item">
+                    <div class="label">Collection Period</div>
+                    <div class="value">{{start_date}}</div>
+                </div>
+                <div class="info-item">
+                    <div class="label">Duration</div>
+                    <div class="value">{{duration_human}}</div>
+                </div>
+                <div class="info-item">
+                    <div class="label">Samples</div>
+                    <div class="value">{{sample_count}}</div>
+                </div>
+                <div class="info-item">
+                    <div class="label">Status</div>
+                    <div class="value">
+                        <span class="status-badge {{overall_status_class}}">{{overall_status}}</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="info-card">
+            <h2>🖥️ CPU Statistics</h2>
+            <div class="metric-row">
+                <span class="metric-label">Average Usage</span>
+                <span class="metric-value">{{avg_cpu}}%</span>
+            </div>
+            <div class="progress-bar">
+                <div class="progress-fill {{cpu_status_class}}" style="width: {{cpu_percent_bar}}%"></div>
+            </div>
+
+            <div class="metric-row">
+                <span class="metric-label">Maximum Usage</span>
+                <span class="metric-value">{{max_cpu}}%</span>
+            </div>
+            <div class="progress-bar">
+                <div class="progress-fill {{cpu_max_status_class}}" style="width: {{cpu_max_percent_bar}}%"></div>
+            </div>
+
+            <div class="metric-row">
+                <span class="metric-label">Minimum Usage</span>
+                <span class="metric-value">{{min_cpu}}%</span>
+            </div>
+        </section>
+
+        <section class="info-card">
+            <h2>💾 Memory Statistics</h2>
+            <div class="metric-row">
+                <span class="metric-label">Average Usage</span>
+                <span class="metric-value">{{avg_mem}}%</span>
+            </div>
+            <div class="progress-bar">
+                <div class="progress-fill {{mem_status_class}}" style="width: {{mem_percent_bar}}%"></div>
+            </div>
+
+            <div class="metric-row">
+                <span class="metric-label">Maximum Usage</span>
+                <span class="metric-value">{{max_mem}}%</span>
+            </div>
+            <div class="progress-bar">
+                <div class="progress-fill {{mem_max_status_class}}" style="width: {{mem_max_percent_bar}}%"></div>
+            </div>
+
+            <div class="metric-row">
+                <span class="metric-label">Minimum Usage</span>
+                <span class="metric-value">{{min_mem}}%</span>
+            </div>
+        </section>
+
+        <footer class="footer">
+            <p>Generated by Project Sentinel v{{version}}</p>
+            <p>{{timestamp_iso}}</p>
+        </footer>
+    </div>
+</body>
+</html>
