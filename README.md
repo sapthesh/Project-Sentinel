@@ -1,4 +1,4 @@
-# Project Sentinel
+# Project Sentinel - CLI Tool
 
 > **A powerful CLI tool for real-time system performance monitoring**
 
